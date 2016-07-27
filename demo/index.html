@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes" name="viewport">
+
+  <title>imgur-upload Demo</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../paper-input/paper-input.html">
+  <link rel="import" href="../../video-camera/video-camera.html">
+
+  <link rel="import" href="../webrtc-peer.html">
+</head>
+<body>
+
+<template is="dom-bind">
+
+Open two tabs (or two computers)
+
+<br>
+
+On tab1 copy Peer Id= {{peerid}}
+
+<br>
+
+
+<video-camera stream="{{stream}}"></video-camera>
+<paper-input value="{{val}}"></paper-input>
+
+On tab 2 Write here the peerid of tab1
+<video-camera waitforinput="true" stream="[[peerstream]]"></video-camera>
+<webrtc-peer peerjskey="lwjd5qra8257b9" peerid_tocall="[[val]]" peerid="{{peerid}}" stream="[[stream]]" peerstream="{{peerstream}}"></webrtc-peer>
+
+
+
+</template>
+</body>
+</html>

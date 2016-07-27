@@ -1,0 +1,68 @@
+<link rel="import" href="../polymer/polymer.html">
+<script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
+
+<dom-module id="webrtc-peer">
+<template>
+
+
+</template>
+<script>
+Polymer({
+    is: "webrtc-peer",
+    properties: {
+        peerid_tocall: {
+            type: String,
+            observer: '_peerid_changed'
+        },
+        stream: Object,
+        peer: Object,
+        peerid: {
+            type: String,
+            notify: true
+        },
+        peerstream: {
+            type: Object,
+            notify: true
+        },
+        peerjskey: String
+    },
+    attached: function(){
+        var me=this;
+
+        // PeerJS object
+        this.peer = new Peer({
+            key : me.peerjskey
+        });
+
+        this.peer.on('open', function(id) {
+            console.log('My peer ID is: ' + id);
+            me.peerid=id;
+        });
+
+        this.peer.on('call', function(call) {
+            // Answer the call, providing our mediaStream
+            console.log('received call from peer, sending my stream');
+            call.answer(me.stream);
+
+            call.on('stream', function(stream) {
+                console.log('received stream from peer');
+                me.peerstream=stream;
+            });     
+        });
+
+    },
+    _peerid_changed: function(){
+        if(this.peerid_tocall && this.peerid_tocall!=""){
+            var me=this;
+            var call = this.peer.call(this.peerid_tocall, me.stream);
+
+            call.on('stream', function(stream) {
+                console.log('received stream from peer');
+                me.peerstream=stream;
+            });     
+
+        }
+    }
+});
+</script>
+</dom-module>

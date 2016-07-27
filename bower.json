@@ -1,0 +1,29 @@
+{
+  "name": "webrtc-peer",
+  "authors": [
+    "e022333 <ffernandez@bbva.com>"
+  ],
+  "version": "1.0.0",
+  "description": "Webrtc con peerjs",
+  "main": "webrtc-peer.html",
+  "keywords": [
+    "web-components"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "webcomponentsjs": "^0.7.22"
+  },
+   "devDependencies": {
+    "paper-input": "PolymerElements/paper-input#^1.1.15",
+    "video-camera": "^1.0.1"    
+  }
+}
