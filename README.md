@@ -17,3 +17,5 @@ Receiver:
 <webrtc-peer peerjskey="your key" stream="[[stream]]" peerstream="{{peerstream}}">
 </webrtc-peer>
 ```
+
+You can see it working at: https://fernandezpaco.github.io/webrtc-peer/index.html
