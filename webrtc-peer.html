@@ -31,7 +31,9 @@ Polymer({
 
         // PeerJS object
         this.peer = new Peer({
-            key : me.peerjskey
+            host: 'peerjsrv.herokuapp.com',
+            secure: true,
+            port: 443
         });
 
         this.peer.on('open', function(id) {
