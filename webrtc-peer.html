@@ -54,7 +54,7 @@ Polymer({
 
     },
     _peerid_changed: function(){
-        if(this.peerid_tocall && this.peerid_tocall!=""){
+        if(this.peerid_tocall && this.peerid_tocall!="" && typeof this.peerid_tocall=="string"){
             var me=this;
             var call = this.peer.call(this.peerid_tocall, me.stream);
 
