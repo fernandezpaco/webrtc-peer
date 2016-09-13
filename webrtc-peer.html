@@ -14,7 +14,10 @@ Polymer({
             type: String,
             observer: '_peerid_changed'
         },
-        stream: Object,
+        stream: {
+            type: Object,
+            observer: '_peerid_changed'
+        },
         peer: Object,
         peerid: {
             type: String,
@@ -33,8 +36,57 @@ Polymer({
         this.peer = new Peer({
             host: 'peerjsrv.herokuapp.com',
             secure: true,
-            port: 443
+            port: 443,
+            debug: 1
         });
+
+        // pass the peer instance, and it will start sending heartbeats
+        // this is because servers like heroku, drops connections when they are inactive
+        var heartbeater = makePeerHeartbeater( this.peer );
+
+        // stop them later
+        // heartbeater.stop();
+
+        function makePeerHeartbeater ( peer ) {
+            var timeoutId = 0;
+            function heartbeat () {
+                timeoutId = setTimeout( heartbeat, 5000 );
+                if ( peer.socket._wsOpen() ) {
+                    peer.socket.send( {type:'HEARTBEAT'} );
+                }
+            }
+            // Start 
+            heartbeat();
+            // return
+            return {
+                start : function () {
+                    if ( timeoutId === 0 ) { heartbeat(); }
+                },
+                stop : function () {
+                    clearTimeout( timeoutId );
+                    timeoutId = 0;
+                }
+            };
+        }
+
+        // hack to get around the fact that if a server connection cannot
+        // be established, the peer and its socket property both still have
+        // open === true; instead, listen to the wrapped WebSocket
+        // and show an error if its readyState becomes CLOSED
+        /*this.peer.socket.on('close', function () {
+            logError('no connection to server');
+            me.peer = null;
+        });
+
+        this.peer.socket.on('disconnected', function () {
+            logError('disconnected to server');
+            me.peer = null;
+        });
+
+        this.peer.socket.on('error', function () {
+            logError('error on server');
+            me.peer = null;
+        });*/
 
         this.peer.on('open', function(id) {
             console.log('My peer ID is: ' + id);
@@ -54,14 +106,27 @@ Polymer({
 
     },
     _peerid_changed: function(){
-        if(this.peerid_tocall && this.peerid_tocall!="" && typeof this.peerid_tocall=="string"){
+        if(this.peerid_tocall && this.stream && this.peerid_tocall!="" && typeof this.peerid_tocall=="string"){
             var me=this;
             var call = this.peer.call(this.peerid_tocall, me.stream);
 
+            if(!call){
+                console.log('stream:'+me.stream);
+                console.log('disconnected:'+this.peer.disconnected);
+                console.log('open:'+this.peer.open);                
+            }
+
+            console.log('Initiating call to peer:'+this.peerid_tocall);
             call.on('stream', function(stream) {
                 console.log('received stream from peer');
                 me.peerstream=stream;
             });     
+
+            call.on('error', function(err) {
+                console.log('error');
+                console.log(err);
+            });     
+
 
         }
     }
