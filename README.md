@@ -19,3 +19,12 @@ Receiver:
 ```
 
 You can see it working at: https://fernandezpaco.github.io/webrtc-peer/index.html
+
+If you need a turn/stun server you can pass the configuration to the iceconfig propertie, something like this:
+
+
+ yourcomponent.iceconfig= {"iceServers" : [ {
+        "url" : "turn:yourturnip:3478",
+        "username" : "youruser",
+        "credential" : "yourpwd"
+    } ]}

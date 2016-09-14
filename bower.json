@@ -3,7 +3,7 @@
   "authors": [
     "e022333 <ffernandez@bbva.com>"
   ],
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Webrtc con peerjs",
   "main": "webrtc-peer.html",
   "keywords": [

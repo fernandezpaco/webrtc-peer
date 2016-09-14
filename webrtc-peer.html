@@ -28,7 +28,8 @@ Polymer({
             notify: true
         },
         peerjskey: String,
-        peerjsrv: String
+        peerjsrv: String,
+        iceconfig: Object
     },
     attached: function(){
         var me=this;
@@ -38,7 +39,8 @@ Polymer({
             host: this.peerjsrv,
             secure: true,
             port: 443,
-            debug: 3
+            debug: 3,
+            config : this.iceconfig
         });
 
         // pass the peer instance, and it will start sending heartbeats
