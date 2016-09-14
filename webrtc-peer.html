@@ -150,6 +150,7 @@ Polymer({
 
             call.on('close', function(call) {
                 console.log('call closed');
+                me.peerstream=null;
                 me.fire('webrtc-call-closed', {
                     name: me.peerid_tocall
                 });
