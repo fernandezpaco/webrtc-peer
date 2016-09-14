@@ -27,17 +27,18 @@ Polymer({
             type: Object,
             notify: true
         },
-        peerjskey: String
+        peerjskey: String,
+        peerjsrv: String
     },
     attached: function(){
         var me=this;
 
         // PeerJS object
         this.peer = new Peer({
-            host: 'peerjsrv.herokuapp.com',
+            host: this.peerjsrv,
             secure: true,
             port: 443,
-            debug: 1
+            debug: 3
         });
 
         // pass the peer instance, and it will start sending heartbeats
@@ -102,7 +103,27 @@ Polymer({
                 console.log('received stream from peer');
                 me.peerstream=stream;
             });     
+
+            call.on('close', function(stream) {
+                console.log('closed stream from peer');
+                me.peerstream=null;
+            });     
+
+            call.on('error', function(stream) {
+                console.log('error stream from peer');
+                me.peerstream=null;
+            });     
+
         });
+
+        this.peer.on('close', function(call) {
+            console.log('received call closed');
+        });
+
+        this.peer.on('disconnected', function(call) {
+            console.log('received call disconnected');
+        });
+
 
     },
     _peerid_changed: function(){
@@ -125,7 +146,19 @@ Polymer({
             call.on('error', function(err) {
                 console.log('error');
                 console.log(err);
-            });     
+            });   
+
+            call.on('close', function(call) {
+                console.log('call closed');
+                me.fire('webrtc-call-closed', {
+                    name: me.peerid_tocall
+                });
+            });
+
+            call.on('disconnected', function(call) {
+                console.log('call disconnected');
+            });
+  
 
 
         }
