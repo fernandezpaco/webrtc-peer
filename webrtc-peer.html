@@ -10,38 +10,79 @@
 Polymer({
     is: "webrtc-peer",
     properties: {
+        /** Peer Id to call.
+        */
         peerid_tocall: {
             type: String,
-            observer: '_peerid_changed'
+            observer: 'connect_to_peer_when_ready'
         },
+        /** My video stream
+        */
         stream: {
             type: Object,
-            observer: '_peerid_changed'
+            observer: 'connect_to_peer_when_ready'
         },
-        peer: Object,
+        /** My Peer Id returned by the PeerServer Connection
+        */
         peerid: {
             type: String,
             notify: true
         },
+        /** The video stream of the peer
+        */
         peerstream: {
             type: Object,
             notify: true
         },
-        peerjskey: String,
-        peerjsrv: String,
-        iceconfig: Object
+        /** PeerServer connection
+        */
+        peer: Object,
+        peerjskey: {
+            type: String,
+            observer: 'start_peer'
+        },
+        peerjsrv: {
+            type: String,
+            observer: 'start_peer'
+        },
+        iceconfig: {
+            type: Object,
+            observer: '_iceconfig_changed'
+        }
     },
-    attached: function(){
+    _iceconfig_changed: function(){
+        if(this.peer)
+            this.peer.config=this.iceconfig;
+    },
+    connect_to_peer_when_ready: function(){
+        if(this.peerid_tocall && this.stream && this.peerid_tocall!="" && typeof this.peerid_tocall=="string"){
+            this.connect_to_peer();
+        }
+    },
+    start_peer: function(){
+        if((!this.peerjsrv || this.peerjsrv=="")&&
+            (!this.peerjskey || this.peerjskey=="")){
+            return;
+        }
         var me=this;
 
         // PeerJS object
-        this.peer = new Peer({
-            host: this.peerjsrv,
-            secure: true,
-            port: 443,
-            debug: 3,
-            config : this.iceconfig
-        });
+        if(this.peerjsrv){
+            //Connection to private peerjs
+            this.peer = new Peer({
+                host: this.peerjsrv,
+                secure: true,
+                port: 443,
+                debug: 3,
+                config : this.iceconfig
+            });
+        }else{
+            //Connection to public peerjs
+            this.peer = new Peer({
+                key: this.peerjskey,
+                config : this.iceconfig
+            });  
+        }
 
         // pass the peer instance, and it will start sending heartbeats
         // this is because servers like heroku, drops connections when they are inactive
@@ -128,8 +169,8 @@ Polymer({
 
 
     },
-    _peerid_changed: function(){
-        if(this.peerid_tocall && this.stream && this.peerid_tocall!="" && typeof this.peerid_tocall=="string"){
+    connect_to_peer: function(){
+        //if(this.peerid_tocall && this.stream && this.peerid_tocall!="" && typeof this.peerid_tocall=="string"){
             var me=this;
             var call = this.peer.call(this.peerid_tocall, me.stream);
 
@@ -164,7 +205,7 @@ Polymer({
   
 
 
-        }
+        //}
     }
 });
 </script>

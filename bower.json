@@ -3,7 +3,7 @@
   "authors": [
     "e022333 <ffernandez@bbva.com>"
   ],
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Webrtc con peerjs",
   "main": "webrtc-peer.html",
   "keywords": [
@@ -24,6 +24,6 @@
   },
    "devDependencies": {
     "paper-input": "PolymerElements/paper-input#^1.1.15",
-    "video-camera": "^1.0.1"    
+    "video-camera": "^1.0.11"    
   }
 }

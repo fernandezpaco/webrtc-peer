@@ -17,6 +17,10 @@
 <body>
 
 <template is="dom-bind">
+<paper-input value="{{peerjskey}}" label="PeerJS Key"></paper-input>
+<paper-input value="{{peerjsrv}}"  label="PeerJS Server"></paper-input>
+
+<br>
 
 Open two tabs (or two computers)
 
@@ -26,13 +30,12 @@ On tab1 copy Peer Id= {{peerid}}
 
 <br>
 
+<video-camera stream="{{stream}}" style="width:100%;"></video-camera>
+<paper-input value="{{val}}" style="width:350px;" label="On tab 2 Write here the peerid of tab1"></paper-input>
 
-<video-camera stream="{{stream}}" style="width:150px;position:absolute"></video-camera>
-<paper-input value="{{val}}" style="width:350px;top:200px;position:absolute" label="On tab 2 Write here the peerid of tab1"></paper-input>
 
-
-<video-camera waitforinput="true" stream="[[peerstream]]" style="width:450px;top:300px;position:absolute"></video-camera>
-<webrtc-peer peerjskey="lwjd5qra8257b9" peerid_tocall="[[val]]" peerid="{{peerid}}" stream="[[stream]]" peerstream="{{peerstream}}"></webrtc-peer>
+<video-camera waitforinput="true" stream="[[peerstream]]" style="width:100%;"></video-camera>
+<webrtc-peer peerjskey="{{peerjskey}}" peerjsrv="{{peerjsrv}}" peerid_tocall="[[val]]" peerid="{{peerid}}" stream="[[stream]]" peerstream="{{peerstream}}"></webrtc-peer>
 
 
 
