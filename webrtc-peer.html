@@ -55,6 +55,8 @@ Polymer({
         }
     },
     _iceconfig_changed: function(){
+        //ON https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/
+        //you can check if the turn server is working
         if(this.peer)
             this.peer.config=this.iceconfig;
     },
