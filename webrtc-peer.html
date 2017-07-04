@@ -57,8 +57,8 @@ Polymer({
     _iceconfig_changed: function(){
         //ON https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/
         //you can check if the turn server is working
-        if(this.peer)
-            this.peer.config=this.iceconfig;
+        if(this.peer && this.peer.options)
+            this.peer.options.config=this.iceconfig;
     },
     connect_to_peer_when_ready: function(){
         if(this.peerid_tocall && this.stream && this.peerid_tocall!="" && typeof this.peerid_tocall=="string"){
@@ -86,6 +86,7 @@ Polymer({
             //Connection to public peerjs
             this.peer = new Peer({
                 key: this.peerjskey,
+                debug: 3,
                 config : this.iceconfig
             });  
         }
