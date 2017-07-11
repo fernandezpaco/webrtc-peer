@@ -1,20 +1,22 @@
 # webrtc-peer
 webrtc peer using peerjs
 
-You can use it to call or to receive calls.
+You can use it to call or to receive calls. You will need a peerjs server. You can use the free version or host your own. More info: https://github.com/peers/peerjs-server
+
+Use together with video-camera component (bower install video-camera).
 
 Caller:
 ```html
 <video-camera id="mywebcam" stream="{{stream}}"></video-camera>
 <video-camera id="peerstream" waitforinput="true" stream="[[peerstream]]"></video-camera>
-<webrtc-peer peerjskey="your key" peerid_tocall="[[peer id to call]" stream="[[stream]]" peerstream="{{peerstream}}">
+<webrtc-peer peerjskey="your key" peerjsrv="server_ip_or_dns" peerid_tocall="[[peer id to call]" stream="[[stream]]" peerstream="{{peerstream}}">
 </webrtc-peer>
 ```
 Receiver:
 ```html
 <video-camera id="mywebcam" stream="{{stream}}"></video-camera>
 <video-camera id="peerstream" waitforinput="true" stream="[[peerstream]]"></video-camera>
-<webrtc-peer peerjskey="your key" stream="[[stream]]" peerstream="{{peerstream}}">
+<webrtc-peer peerjskey="your key" peerjsrv="server_ip_or_dns" stream="[[stream]]" peerstream="{{peerstream}}">
 </webrtc-peer>
 ```
 
