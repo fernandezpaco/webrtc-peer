@@ -38,12 +38,21 @@ Polymer({
         */
         peer: Object,
         peerjskey: {
-            value: 'qchxtttyju5cow29',
             type: String,
             observer: 'start_peer'
         },
         peerjsrv: {
             type: String,
+            observer: 'start_peer'
+        },
+        peerjsrvport: {
+            value: 9000,
+            type: Number,
+            observer: 'start_peer'
+        },
+        peerjsrvsecure: {
+            value: true,
+            type: Boolean,
             observer: 'start_peer'
         },
         iceconfig: {
@@ -77,8 +86,8 @@ Polymer({
             //Connection to private peerjs
             this.peer = new Peer({
                 host: this.peerjsrv,
-                secure: true,
-                port: 443,
+                secure: this.peerjsrvsecure,
+                port: this.peerjsrvport,
                 debug: 3,
                 config : this.iceconfig
             });
