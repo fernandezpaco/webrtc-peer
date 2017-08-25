@@ -84,13 +84,17 @@ Polymer({
         // PeerJS object
         if(this.peerjsrv){
             //Connection to private peerjs
-            this.peer = new Peer({
+            var config={
                 host: this.peerjsrv,
                 secure: this.peerjsrvsecure,
                 port: this.peerjsrvport,
                 debug: 3,
                 config : this.iceconfig
-            });
+            };
+            if(this.peerid)
+                this.peer = new Peer(this.peerid,config);
+            else
+                this.peer = new Peer(config);
         }else{
             //Connection to public peerjs
             this.peer = new Peer({
