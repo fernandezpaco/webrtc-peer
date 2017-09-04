@@ -38,22 +38,18 @@ Polymer({
         */
         peer: Object,
         peerjskey: {
-            type: String,
-            observer: 'start_peer'
+            type: String
         },
         peerjsrv: {
             type: String,
-            observer: 'start_peer'
         },
         peerjsrvport: {
             value: 9000,
-            type: Number,
-            observer: 'start_peer'
+            type: Number
         },
         peerjsrvsecure: {
             value: true,
-            type: Boolean,
-            observer: 'start_peer'
+            type: Boolean
         },
         iceconfig: {
             type: Object,
@@ -63,6 +59,10 @@ Polymer({
             type: Object
         }
     },
+    observers: [
+    'start_peer_private(peerjsrv, peerjsrvport, peerjsrvsecure)',
+    'start_peer_public(peerjskey)'
+    ],
     _iceconfig_changed: function(){
         //ON https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/
         //you can check if the turn server is working
@@ -73,6 +73,12 @@ Polymer({
         if(this.peerid_tocall && this.stream && this.peerid_tocall!="" && typeof this.peerid_tocall=="string"){
             this.connect_to_peer();
         }
+    },
+    start_peer_private: function(peerjsrv, peerjsrvport, peerjsrvsecure){
+        this.start_peer();
+    },
+    start_peer_public: function(peerjskey){
+        this.start_peer();
     },
     start_peer: function(){
         if((!this.peerjsrv || this.peerjsrv=="")&&
