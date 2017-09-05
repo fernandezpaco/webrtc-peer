@@ -80,6 +80,9 @@ Polymer({
     start_peer_public: function(peerjskey){
         this.start_peer();
     },
+    close_peer: function(){
+        this.peer.disconnect();
+    },
     start_peer: function(){
         if((!this.peerjsrv || this.peerjsrv=="")&&
             (!this.peerjskey || this.peerjskey=="")){
